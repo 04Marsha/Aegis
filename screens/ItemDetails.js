@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ScrollView, View, Text, StyleSheet } from "react-native";
-import { fetchedItemDetails } from "../util/database";
+import { ScrollView, View, Text, StyleSheet, Alert } from "react-native";
+import { deleteItem, fetchedItemDetails } from "../util/database";
 import Colors from "../constants/Colors";
 import IconButton from "../components/UI/IconButton";
 
@@ -11,6 +11,21 @@ function ItemDetails({ route, navigation }) {
 
   function onSelectDeleteHandler() {
     console.log("delete");
+    Alert.alert(
+      "Delete Password",
+      "Are you sure you want to delete this item ?",
+      [
+        ({ text: "Cancel", style: "Cancel" },
+        {
+          text: "Delete",
+          style: "Destructive",
+          onPress: async () => {
+            await deleteItem(selectedItemId);
+            navigation.goBack();
+          },
+        }),
+      ]
+    );
   }
 
   useEffect(() => {

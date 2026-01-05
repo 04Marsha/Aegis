@@ -55,3 +55,7 @@ export async function fetchedItemDetails(id) {
   );
   return item;
 }
+
+export async function deleteItem(id) {
+  await database.runAsync(`DELETE FROM items WHERE id = ?`, [id]);
+}

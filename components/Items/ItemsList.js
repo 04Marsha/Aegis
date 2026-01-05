@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, StyleSheet, View, Text } from "react-native";
 import Item from "./Item";
+import Colors from "../../constants/Colors";
 
 function ItemsList({ items }) {
   const navigation = useNavigation();
@@ -14,7 +15,7 @@ function ItemsList({ items }) {
   if (!items || items.length === 0) {
     return (
       <View style={styles.fallbackContainer}>
-        <Text style={styles.fallbackText}>Your vault is empty.</Text>
+        <Text style={styles.fallbackText}>No credentials stored.</Text>
       </View>
     );
   }
@@ -37,6 +38,14 @@ const styles = StyleSheet.create({
   list: {
     margin: 24,
   },
-  fallbackContainer: {},
-  fallbackText: {},
+  fallbackContainer: {
+    alignItems: "center",
+    marginVertical: 20,
+    marginHorizontal: 10,
+  },
+  fallbackText: {
+    color: Colors.Tint,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
 });
