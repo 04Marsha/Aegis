@@ -1,8 +1,9 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
-function Item({ item, onSelect }) {
+import Colors from "../../constants/Colors";
+
+function VaultItem({ item, onSelect }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]}
@@ -16,7 +17,7 @@ function Item({ item, onSelect }) {
   );
 }
 
-export default Item;
+export default VaultItem;
 
 const styles = StyleSheet.create({
   item: {
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Secondary,
     elevation: 2,
   },
+  pressed: { opacity: 1 },
   container: {
     flex: 2,
     justifyContent: "space-between",

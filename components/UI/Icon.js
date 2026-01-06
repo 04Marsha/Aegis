@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
 import Colors from "../../constants/Colors";
 
 function Icon({ icon, size, color, onPress }) {
@@ -15,7 +16,6 @@ function Icon({ icon, size, color, onPress }) {
 export default Icon;
 
 const styles = StyleSheet.create({
-  pressed: {},
   container: {
     flex: 1,
     justifyContent: "center",

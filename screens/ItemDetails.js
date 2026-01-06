@@ -1,32 +1,20 @@
-import { useEffect, useState } from "react";
 import { ScrollView, View, Text, StyleSheet, Alert } from "react-native";
+import { useEffect, useState } from "react";
+
 import { deleteItem, fetchedItemDetails } from "../util/database";
-import Colors from "../constants/Colors";
+import { useClipboardPassword } from "../hooks/useClipboardPassword";
+import { decryptPassword } from "../util/crypto";
 import IconButton from "../components/UI/IconButton";
+import Icon from "../components/UI/Icon";
+import Colors from "../constants/Colors";
 
 function ItemDetails({ route, navigation }) {
   const [fetchedItem, setFetchedItem] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+  const [visiblePassword, setVisiblePassword] = useState("••••••••");
 
+  const { copyPassword } = useClipboardPassword();
   const selectedItemId = route.params.itemId;
-
-  function onSelectDeleteHandler() {
-    console.log("delete");
-    Alert.alert(
-      "Delete Password",
-      "Are you sure you want to delete this item ?",
-      [
-        ({ text: "Cancel", style: "Cancel" },
-        {
-          text: "Delete",
-          style: "Destructive",
-          onPress: async () => {
-            await deleteItem(selectedItemId);
-            navigation.goBack();
-          },
-        }),
-      ]
-    );
-  }
 
   useEffect(() => {
     async function loadItemData() {
@@ -38,6 +26,45 @@ function ItemDetails({ route, navigation }) {
     }
     loadItemData();
   }, [selectedItemId]);
+
+  useEffect(() => {
+    if (!showPassword || !fetchedItem) {
+      setVisiblePassword("••••••••");
+      return;
+    }
+    try {
+      const decrypted = decryptPassword(fetchedItem.encryptedPassword);
+      setVisiblePassword(decrypted);
+    } catch {
+      Alert.alert("Vault locked", "Unlock again to view password");
+      navigation.goBack();
+    }
+  }, [showPassword, fetchedItem]);
+
+  function onTogglePasswordHandler() {
+    setShowPassword((prev) => !prev);
+    setTimeout(() => {
+      setShowPassword(false);
+    }, 3000);
+  }
+
+  function onSelectDeleteHandler() {
+    Alert.alert(
+      "Delete Password",
+      "Are you sure you want to delete this item ?",
+      [
+        { text: "Cancel", style: "Cancel" },
+        {
+          text: "Delete",
+          style: "Destructive",
+          onPress: async () => {
+            await deleteItem(selectedItemId);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
+  }
 
   if (!fetchedItem) {
     return (
@@ -58,8 +85,26 @@ function ItemDetails({ route, navigation }) {
         </View>
         <View style={styles.itemContainer}>
           <Text style={styles.title}>Password</Text>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>{fetchedItem.password}</Text>
+          <View style={styles.passwordContainer}>
+            <Text style={styles.passwordText}>{visiblePassword}</Text>
+            <View style={styles.iconContainer}>
+              <Icon
+                icon={showPassword ? "eye-off" : "eye"}
+                size={20}
+                color={Colors.Primary}
+                onPress={onTogglePasswordHandler}
+              />
+              <Icon
+                icon="copy-outline"
+                size={20}
+                color={Colors.Primary}
+                onPress={() =>
+                  copyPassword(visiblePassword, {
+                    isVisible: showPassword,
+                  })
+                }
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -97,6 +142,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     gap: 10,
   },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
   title: {
     color: Colors.Tint,
     fontSize: 20,
@@ -115,9 +165,29 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 15,
   },
+  passwordText: {
+    flex: 1,
+    color: Colors.Primary,
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  passwordContainer: {
+    backgroundColor: Colors.Secondary,
+    borderColor: Colors.Light,
+    borderWidth: 1.5,
+    borderRadius: 10,
+    marginBottom: 10,
+    marginHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    flexDirection: "row",
+  },
   text: {
     color: Colors.Primary,
     fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 10,
   },
 });

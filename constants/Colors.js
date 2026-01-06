@@ -4,7 +4,8 @@ const Colors = {
   Tint: "#b6dcff",
   Light: "#ffffffff",
   Success: "#39d262ff",
-  Danger: "#ff4b4bff"
+  Danger: "#ff4b4bff",
+  Diabled: "#ffcbcbdc",
 };
 
 export default Colors;

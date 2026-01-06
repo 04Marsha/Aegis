@@ -1,13 +1,19 @@
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import Colors from "../../constants/Colors";
 import { useState } from "react";
-import IconButton from "../UI/IconButton";
+
 import { Item } from "../../models/item";
+import Colors from "../../constants/Colors";
+import IconButton from "../UI/IconButton";
 
 function ItemForm({ onCreateItem }) {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
+
+  const isFormValid =
+    enteredTitle.trim().length > 0 &&
+    enteredUsername.trim().length > 0 &&
+    enteredPassword.trim().length > 0;
 
   function changeTitleHandler(enteredText) {
     setEnteredTitle(enteredText);
@@ -22,8 +28,12 @@ function ItemForm({ onCreateItem }) {
   }
 
   function saveItemHandler() {
-    const itemData = new Item(null, enteredTitle, enteredUsername, enteredPassword);
-    console.log(itemData);
+    const itemData = new Item(
+      null,
+      enteredTitle,
+      enteredUsername,
+      enteredPassword
+    );
     onCreateItem(itemData);
   }
 
@@ -60,6 +70,7 @@ function ItemForm({ onCreateItem }) {
         color={Colors.Primary}
         bgColor={Colors.Success}
         onPress={saveItemHandler}
+        disabled={!isFormValid}
       >
         Save
       </IconButton>

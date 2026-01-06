@@ -1,7 +1,8 @@
-import ItemsList from "../components/Items/ItemsList";
 import { useIsFocused } from "@react-navigation/native";
+
 import { useEffect, useState } from "react";
 import { fetchItems } from "../util/database";
+import ItemsList from "../components/Items/ItemsList";
 
 function AllItems({ route }) {
   const [loadedItems, setLoadedItems] = useState([]);

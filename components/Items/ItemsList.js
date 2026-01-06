@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, StyleSheet, View, Text } from "react-native";
-import Item from "./Item";
+
+import VaultItem from "./VaultItem";
 import Colors from "../../constants/Colors";
 
 function ItemsList({ items }) {
@@ -26,7 +27,7 @@ function ItemsList({ items }) {
       data={items}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <Item item={item} onSelect={selectItemHandler} />
+        <VaultItem item={item} onSelect={selectItemHandler} />
       )}
     />
   );
