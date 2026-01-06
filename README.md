@@ -147,8 +147,6 @@ Logo and app identity designed in-house
 - Encrypted export / import
 - Configurable auto-lock timer
 - Password generator
-- Tagging & search
-- Cloud sync (optional & end-to-end encrypted)
 
 ---
 
