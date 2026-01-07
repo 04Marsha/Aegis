@@ -150,6 +150,15 @@ Logo and app identity designed in-house
 
 ---
 
+## ▶️ Try the App
+
+📱 Live Demo (Expo Go):
+1. Install **Expo Go** on your device
+3. Scan the QR code to launch the app
+
+<img width="302" height="302" alt="image" src="https://github.com/user-attachments/assets/7dcfcd44-271f-4d07-9cb7-d171f1c6c00f" />
+
+
 ## ⚠️ Security Disclaimer
 
 Aegis is a personal security-focused application built for learning purposes.
